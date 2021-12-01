@@ -1,0 +1,1839 @@
+---
+title: "Communication in Asset Markets - Subjects Level" 
+author: "Lahav, Maymoni & Neugebauer"
+output:
+  html_document:
+    highlight: tango
+    number_sections: yes
+    theme: united
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+    highlight: tango
+---
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+library(tidyverse)
+library(varhandle)
+library(ggplot2)
+library(ggpubr)
+ 
+```
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+T1S1 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/control/20211115/211115_0844team1.csv", header=FALSE, sep=",")
+T1S2 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/control/20211115/211115_0851team2.csv", header=FALSE, sep=",")
+T1S3 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/control/20211115/211115_0853team3.csv", header=FALSE, sep=",")
+T1S4 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/control/20211128/211128_1708team1.csv", header=FALSE, sep=",")
+T1S5 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/control/20211128/211128_1702team2.csv", header=FALSE, sep=",")
+T1S6 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/control/20211128/211128_1711team3.csv", header=FALSE, sep=",")
+T3S1 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/treatment3/20211116/211116_0845team1.csv", header=FALSE, sep=",")
+T3S2 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/treatment3/20211116/211116_0847team2.csv", header=FALSE, sep=",")
+T3S3 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/treatment3/20211116/211116_0816team3.csv", header=FALSE, sep=",")
+T3S4 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/treatment3/20211122/211122_0938team1.csv", header=FALSE, sep=",")
+T3S5 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/treatment3/20211122/211122_0924team2.csv", header=FALSE, sep=",")
+T3S6 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/treatment3/20211122/211122_0926team3.csv", header=FALSE, sep=",")
+T4S1 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/treatment4/20211114/211114_1128team1.csv", header=FALSE, sep=",")
+T4S2 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/treatment4/20211114/211114_1100team2.csv", header=FALSE, sep=",")
+T4S3 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/treatment4/20211114/211114_1109team3.csv", header=FALSE, sep=",")
+T4S4 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/treatment4/20211128/211128_1334team1.csv", header=FALSE, sep=",")
+T4S5 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/treatment4/20211128/211128_1320team2.csv", header=FALSE, sep=",")
+T4S6 <- read.csv(file="C:/Users/Liran/Google Drive/Study/PhD/a_peny_for_your_toughts/ztree/treatment4/20211128/211128_1323team3.csv", header=FALSE, sep=",")
+```
+
+
+
+
+# HL distributions {.tabset}
+
+## Aggregate
+
+```{r, echo= FALSE, message=FALSE}
+HL_T1S1 = unfactor(as.factor(data.frame(T1S1 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T1S2 = unfactor(as.factor(data.frame(T1S2 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T1S3 = unfactor(as.factor(data.frame(T1S3 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T1S4 = unfactor(as.factor(data.frame(T1S4 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T1S5 = unfactor(as.factor(data.frame(T1S5 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T1S6 = unfactor(as.factor(data.frame(T1S6 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T3S1 = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T3S2 = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T3S3 = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T3S4 = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T3S5 = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T3S6 = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T4S1 = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T4S2 = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T4S3 = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T4S4 = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T4S5 = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+HL_T4S6 = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==1))[c(2:7),38]))
+
+HL_agg = c()
+
+for (t in c(1,3,4)){
+for (s in 1:6){
+session_num=s
+treatment_num=t
+mydata <- get(paste("HL_T",t,paste("S",s,sep=""),sep=""))
+mydata = t(t(as.data.frame(mydata)))
+session = as.data.frame(rep(session_num,6))
+treatment = as.data.frame(rep(treatment_num,6))
+player = as.data.frame(c(1:6))
+
+mydata = cbind(player,mydata)
+mydata = cbind(session,mydata)
+mydata = cbind(treatment,mydata)
+
+HL_agg = rbind(HL_agg,mydata)
+}}
+colnames(HL_agg) = c("Treatment","S","P","HL")
+
+ggplot(HL_agg, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("HL Distribution (Extreme risk seeking = 10)") + 
+  scale_x_continuous(name = "HL", breaks = seq(0, 10, by = 1)) + 
+  scale_y_continuous(name = "Count", breaks = seq(0, 35, by = 5))
+
+
+```
+
+## Control Treatment
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+mydata = data.frame(HL_agg %>% filter(Treatment==1,S==1))
+S1 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 1") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4)) +
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==1,S==2))
+S2 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 2") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==1,S==3))
+S3 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 3") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==1,S==4))
+S4 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 4") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==1,S==5))
+S5 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 5") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==1,S==6))
+S6 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 6") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+ggarrange(S1, S2, S3, S4, S5, S6,
+                    ncol = 2, nrow = 3)
+```
+
+
+## Treatment 3
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+mydata = data.frame(HL_agg %>% filter(Treatment==3,S==1))
+S1 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 1") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4)) +
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==3,S==2))
+S2 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 2") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==3,S==3))
+S3 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 3") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==3,S==4))
+S4 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 4") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==3,S==5))
+S5 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 5") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==3,S==6))
+S6 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 6") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+ggarrange(S1, S2, S3, S4, S5, S6,
+                    ncol = 2, nrow = 3)
+```
+
+
+## Treatment 4
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+mydata = data.frame(HL_agg %>% filter(Treatment==4,S==1))
+S1 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 1") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4)) +
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==4,S==2))
+S2 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 2") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==4,S==3))
+S3 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 3") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==4,S==4))
+S4 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 4") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==4,S==5))
+S5 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 5") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(HL_agg %>% filter(Treatment==4,S==6))
+S6 = ggplot(mydata, aes(x=HL)) + 
+  geom_histogram(fill="lightblue", color="grey50", binwidth=0.5)+
+  ggtitle("Session 6") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0,10)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,4))+
+  rremove("ylab")+ rremove("xlab")
+
+ggarrange(S1, S2, S3, S4, S5, S6,
+                    ncol = 2, nrow = 3)
+```
+
+
+
+
+# CRT distributions {.tabset}
+
+## Aggregate
+
+```{r, echo= FALSE, message=FALSE}
+CRT_T1S1 = unfactor(as.factor(data.frame(T1S1 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T1S2 = unfactor(as.factor(data.frame(T1S2 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T1S3 = unfactor(as.factor(data.frame(T1S3 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T1S4 = unfactor(as.factor(data.frame(T1S4 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T1S5 = unfactor(as.factor(data.frame(T1S5 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T1S6 = unfactor(as.factor(data.frame(T1S6 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T3S1 = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T3S2 = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T3S3 = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T3S4 = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T3S5 = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T3S6 = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T4S1 = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T4S2 = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T4S3 = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T4S4 = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T4S5 = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+CRT_T4S6 = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==1))[c(2:7),61]))
+
+CRT_agg = c()
+
+for (t in c(1,3,4)){
+for (s in 1:6){
+session_num=s
+treatment_num=t
+mydata <- get(paste("CRT_T",t,paste("S",s,sep=""),sep=""))
+mydata = t(t(as.data.frame(mydata)))
+session = as.data.frame(rep(session_num,6))
+treatment = as.data.frame(rep(treatment_num,6))
+player = as.data.frame(c(1:6))
+
+mydata = cbind(player,mydata)
+mydata = cbind(session,mydata)
+mydata = cbind(treatment,mydata)
+
+CRT_agg = rbind(CRT_agg,mydata)
+}}
+colnames(CRT_agg) = c("Treatment","S","P","CRT")
+
+ggplot(CRT_agg, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("CRT Distribution") + 
+  scale_x_continuous(name = "CRT", breaks = seq(0, 10, by = 1)) + 
+  scale_y_continuous(name = "Count", breaks = seq(0, 50, by = 5))
+
+
+```
+
+## Control Treatment
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+mydata = data.frame(CRT_agg %>% filter(Treatment==1,S==1))
+S1 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 1") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6)) +
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==1,S==2))
+S2 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 2") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==1,S==3))
+S3 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 3") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==1,S==4))
+S4 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 4") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==1,S==5))
+S5 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 5") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==1,S==6))
+S6 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 6") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+ggarrange(S1, S2, S3, S4, S5, S6,
+                    ncol = 2, nrow = 3)
+```
+
+
+## Treatment 3
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+mydata = data.frame(CRT_agg %>% filter(Treatment==3,S==1))
+S1 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 1") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6)) +
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==3,S==2))
+S2 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 2") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==3,S==3))
+S3 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 3") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==3,S==4))
+S4 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 4") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==3,S==5))
+S5 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 5") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==3,S==6))
+S6 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 6") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+ggarrange(S1, S2, S3, S4, S5, S6,
+                    ncol = 2, nrow = 3)
+```
+
+
+## Treatment 4
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+mydata = data.frame(CRT_agg %>% filter(Treatment==4,S==1))
+S1 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 1") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6)) +
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==4,S==2))
+S2 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 2") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==4,S==3))
+S3 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 3") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==4,S==4))
+S4 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 4") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==4,S==5))
+S5 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 5") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(CRT_agg %>% filter(Treatment==4,S==6))
+S6 = ggplot(mydata, aes(x=CRT)) + 
+  geom_histogram(fill="lightgreen", color="grey50", binwidth=0.5)+
+  ggtitle("Session 6") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(-0.5,3.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+ggarrange(S1, S2, S3, S4, S5, S6,
+                    ncol = 2, nrow = 3)
+```
+
+
+
+
+# Gender distributions {.tabset}
+
+## Aggregate
+
+```{r, echo= FALSE, message=FALSE}
+Gender_T1S1 = unfactor(as.factor(data.frame(T1S1 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2594]))
+Gender_T1S2 = unfactor(as.factor(data.frame(T1S2 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2594]))
+Gender_T1S3 = unfactor(as.factor(data.frame(T1S3 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2594]))
+Gender_T1S4 = unfactor(as.factor(data.frame(T1S4 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2594]))
+Gender_T1S5 = unfactor(as.factor(data.frame(T1S5 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2594]))
+Gender_T1S6 = unfactor(as.factor(data.frame(T1S6 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2594]))
+Gender_T3S1 = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2566]))
+Gender_T3S2 = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2566]))
+Gender_T3S3 = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2566]))
+Gender_T3S4 = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2566]))
+Gender_T3S5 = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2566]))
+Gender_T3S6 = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2566]))
+Gender_T4S1 = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2594]))
+Gender_T4S2 = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2594]))
+Gender_T4S3 = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2594]))
+Gender_T4S4 = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2594]))
+Gender_T4S5 = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2594]))
+Gender_T4S6 = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2594]))
+
+Gender_agg = c()
+
+for (t in c(1,3,4)){
+for (s in 1:6){
+session_num=s
+treatment_num=t
+mydata <- get(paste("Gender_T",t,paste("S",s,sep=""),sep=""))
+mydata = t(t(as.data.frame(mydata)))
+session = as.data.frame(rep(session_num,6))
+treatment = as.data.frame(rep(treatment_num,6))
+player = as.data.frame(c(1:6))
+
+mydata = cbind(player,mydata)
+mydata = cbind(session,mydata)
+mydata = cbind(treatment,mydata)
+
+Gender_agg = rbind(Gender_agg,mydata)
+}}
+colnames(Gender_agg) = c("Treatment","S","P","Gender")
+
+ggplot(Gender_agg, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Gender Distribution (Female=1)") + 
+  scale_x_continuous(name = "Gender", breaks = seq(0, 10, by = 1)) + 
+  scale_y_continuous(name = "Count", breaks = seq(0, 100, by = 10))
+
+
+```
+
+## Control Treatment
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+mydata = data.frame(Gender_agg %>% filter(Treatment==1,S==1))
+S1 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 1") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6)) +
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==1,S==2))
+S2 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 2") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==1,S==3))
+S3 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 3") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==1,S==4))
+S4 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 4") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==1,S==5))
+S5 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 5") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==1,S==6))
+S6 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 6") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+ggarrange(S1, S2, S3, S4, S5, S6,
+                    ncol = 2, nrow = 3)
+```
+
+
+## Treatment 3
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+mydata = data.frame(Gender_agg %>% filter(Treatment==3,S==1))
+S1 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 1") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6)) +
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==3,S==2))
+S2 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 2") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==3,S==3))
+S3 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 3") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==3,S==4))
+S4 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 4") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==3,S==5))
+S5 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 5") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==3,S==6))
+S6 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 6") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+ggarrange(S1, S2, S3, S4, S5, S6,
+                    ncol = 2, nrow = 3)
+```
+
+
+## Treatment 4
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+mydata = data.frame(Gender_agg %>% filter(Treatment==4,S==1))
+S1 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 1") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6)) +
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==4,S==2))
+S2 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 2") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==4,S==3))
+S3 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 3") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==4,S==4))
+S4 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 4") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==4,S==5))
+S5 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 5") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Gender_agg %>% filter(Treatment==4,S==6))
+S6 = ggplot(mydata, aes(x=Gender)) + 
+  geom_histogram(fill="orange", color="grey50", binwidth=0.5)+
+  ggtitle("Session 6") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+ggarrange(S1, S2, S3, S4, S5, S6,
+                    ncol = 2, nrow = 3)
+```
+
+
+
+
+# Risk Taking distributions {.tabset}
+
+## Aggregate
+
+```{r, echo= FALSE, message=FALSE}
+Risk_T1S1 = unfactor(as.factor(data.frame(T1S1 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2589]))
+Risk_T1S2 = unfactor(as.factor(data.frame(T1S2 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2589]))
+Risk_T1S3 = unfactor(as.factor(data.frame(T1S3 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2589]))
+Risk_T1S4 = unfactor(as.factor(data.frame(T1S4 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2589]))
+Risk_T1S5 = unfactor(as.factor(data.frame(T1S5 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2589]))
+Risk_T1S6 = unfactor(as.factor(data.frame(T1S6 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2589]))
+Risk_T3S1 = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2561]))
+Risk_T3S2 = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2561]))
+Risk_T3S3 = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2561]))
+Risk_T3S4 = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2561]))
+Risk_T3S5 = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2561]))
+Risk_T3S6 = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2561]))
+Risk_T4S1 = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2589]))
+Risk_T4S2 = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2589]))
+Risk_T4S3 = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2589]))
+Risk_T4S4 = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2589]))
+Risk_T4S5 = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2589]))
+Risk_T4S6 = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2, V4==15))[c(1:6),2589]))
+
+Risk_agg = c()
+
+for (t in c(1,3,4)){
+for (s in 1:6){
+session_num=s
+treatment_num=t
+mydata <- get(paste("Risk_T",t,paste("S",s,sep=""),sep=""))
+mydata = t(t(as.data.frame(mydata)))
+session = as.data.frame(rep(session_num,6))
+treatment = as.data.frame(rep(treatment_num,6))
+player = as.data.frame(c(1:6))
+
+mydata = cbind(player,mydata)
+mydata = cbind(session,mydata)
+mydata = cbind(treatment,mydata)
+
+Risk_agg = rbind(Risk_agg,mydata)
+}}
+colnames(Risk_agg) = c("Treatment","S","P","Risk")
+
+ggplot(Risk_agg, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Risk Distribution (Extreme risk seeking = 1)") + 
+  scale_x_continuous(name = "Risk", breaks = seq(0, 10, by = 1)) + 
+  scale_y_continuous(name = "Count", breaks = seq(0, 100, by = 5))
+
+
+```
+
+## Control Treatment
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+mydata = data.frame(Risk_agg %>% filter(Treatment==1,S==1))
+S1 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 1") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6)) +
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==1,S==2))
+S2 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 2") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==1,S==3))
+S3 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 3") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==1,S==4))
+S4 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 4") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==1,S==5))
+S5 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 5") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==1,S==6))
+S6 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 6") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+ggarrange(S1, S2, S3, S4, S5, S6,
+                    ncol = 2, nrow = 3)
+```
+
+
+## Treatment 3
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+mydata = data.frame(Risk_agg %>% filter(Treatment==3,S==1))
+S1 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 1") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6)) +
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==3,S==2))
+S2 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 2") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==3,S==3))
+S3 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 3") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==3,S==4))
+S4 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 4") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==3,S==5))
+S5 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 5") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==3,S==6))
+S6 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 6") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+ggarrange(S1, S2, S3, S4, S5, S6,
+                    ncol = 2, nrow = 3)
+```
+
+
+## Treatment 4
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+mydata = data.frame(Risk_agg %>% filter(Treatment==4,S==1))
+S1 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 1") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6)) +
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==4,S==2))
+S2 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 2") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==4,S==3))
+S3 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 3") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==4,S==4))
+S4 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 4") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==4,S==5))
+S5 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 5") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+mydata = data.frame(Risk_agg %>% filter(Treatment==4,S==6))
+S6 = ggplot(mydata, aes(x=Risk)) + 
+  geom_histogram(fill="pink", color="grey50", binwidth=0.5)+
+  ggtitle("Session 6") + 
+  scale_x_continuous(name = "", breaks = seq(0, 10, by = 1),limits =c(0.5,7.5)) + 
+  scale_y_continuous(name = "", breaks = seq(0, 35, by = 1),limits =c(0,6))+
+  rremove("ylab")+ rremove("xlab")
+
+ggarrange(S1, S2, S3, S4, S5, S6,
+                    ncol = 2, nrow = 3)
+```
+
+
+# Beliefs vs Inform to Others (per sucject)
+
+```{r, echo= FALSE, message=FALSE,warning = FALSE}
+### beliefs
+T3S1P1_B = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),15]))
+T3S1P2_B = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),15]))
+T3S1P3_B = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),15]))
+T3S1P4_B = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),15]))
+T3S1P5_B = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),15]))
+T3S1P6_B = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),15]))
+
+T4S1P1_B = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),15]))
+T4S1P2_B = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),15]))
+T4S1P3_B = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),15]))
+T4S1P4_B = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),15]))
+T4S1P5_B = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),15]))
+T4S1P6_B = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),15]))
+
+T3S2P1_B = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),15]))
+T3S2P2_B = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),15]))
+T3S2P3_B = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),15]))
+T3S2P4_B = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),15]))
+T3S2P5_B = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),15]))
+T3S2P6_B = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),15]))
+
+T4S2P1_B = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),15]))
+T4S2P2_B = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),15]))
+T4S2P3_B = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),15]))
+T4S2P4_B = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),15]))
+T4S2P5_B = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),15]))
+T4S2P6_B = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),15]))
+
+T3S3P1_B = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),15]))
+T3S3P2_B = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),15]))
+T3S3P3_B = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),15]))
+T3S3P4_B = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),15]))
+T3S3P5_B = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),15]))
+T3S3P6_B = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),15]))
+
+T4S3P1_B = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),15]))
+T4S3P2_B = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),15]))
+T4S3P3_B = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),15]))
+T4S3P4_B = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),15]))
+T4S3P5_B = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),15]))
+T4S3P6_B = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),15]))
+
+T3S4P1_B = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),15]))
+T3S4P2_B = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),15]))
+T3S4P3_B = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),15]))
+T3S4P4_B = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),15]))
+T3S4P5_B = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),15]))
+T3S4P6_B = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),15]))
+
+T4S4P1_B = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),15]))
+T4S4P2_B = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),15]))
+T4S4P3_B = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),15]))
+T4S4P4_B = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),15]))
+T4S4P5_B = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),15]))
+T4S4P6_B = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),15]))
+
+T3S5P1_B = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),15]))
+T3S5P2_B = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),15]))
+T3S5P3_B = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),15]))
+T3S5P4_B = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),15]))
+T3S5P5_B = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),15]))
+T3S5P6_B = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),15]))
+
+T4S5P1_B = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),15]))
+T4S5P2_B = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),15]))
+T4S5P3_B = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),15]))
+T4S5P4_B = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),15]))
+T4S5P5_B = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),15]))
+T4S5P6_B = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),15]))
+
+T3S6P1_B = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),15]))
+T3S6P2_B = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),15]))
+T3S6P3_B = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),15]))
+T3S6P4_B = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),15]))
+T3S6P5_B = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),15]))
+T3S6P6_B = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),15]))
+
+T4S6P1_B = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),15]))
+T4S6P2_B = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),15]))
+T4S6P3_B = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),15]))
+T4S6P4_B = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),15]))
+T4S6P5_B = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),15]))
+T4S6P6_B = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),15]))
+
+###inform
+T3S1P1_i = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),14]))
+T3S1P2_i = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),14]))
+T3S1P3_i = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),14]))
+T3S1P4_i = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),14]))
+T3S1P5_i = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),14]))
+T3S1P6_i = unfactor(as.factor(data.frame(T3S1 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),14]))
+
+T4S1P1_i = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),14]))
+T4S1P2_i = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),14]))
+T4S1P3_i = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),14]))
+T4S1P4_i = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),14]))
+T4S1P5_i = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),14]))
+T4S1P6_i = unfactor(as.factor(data.frame(T4S1 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),14]))
+
+T3S2P1_i = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),14]))
+T3S2P2_i = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),14]))
+T3S2P3_i = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),14]))
+T3S2P4_i = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),14]))
+T3S2P5_i = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),14]))
+T3S2P6_i = unfactor(as.factor(data.frame(T3S2 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),14]))
+
+T4S2P1_i = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),14]))
+T4S2P2_i = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),14]))
+T4S2P3_i = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),14]))
+T4S2P4_i = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),14]))
+T4S2P5_i = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),14]))
+T4S2P6_i = unfactor(as.factor(data.frame(T4S2 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),14]))
+
+T3S3P1_i = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),14]))
+T3S3P2_i = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),14]))
+T3S3P3_i = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),14]))
+T3S3P4_i = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),14]))
+T3S3P5_i = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),14]))
+T3S3P6_i = unfactor(as.factor(data.frame(T3S3 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),14]))
+
+T4S3P1_i = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),14]))
+T4S3P2_i = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),14]))
+T4S3P3_i = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),14]))
+T4S3P4_i = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),14]))
+T4S3P5_i = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),14]))
+T4S3P6_i = unfactor(as.factor(data.frame(T4S3 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),14]))
+
+T3S4P1_i = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),14]))
+T3S4P2_i = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),14]))
+T3S4P3_i = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),14]))
+T3S4P4_i = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),14]))
+T3S4P5_i = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),14]))
+T3S4P6_i = unfactor(as.factor(data.frame(T3S4 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),14]))
+
+T4S4P1_i = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),14]))
+T4S4P2_i = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),14]))
+T4S4P3_i = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),14]))
+T4S4P4_i = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),14]))
+T4S4P5_i = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),14]))
+T4S4P6_i = unfactor(as.factor(data.frame(T4S4 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),14]))
+
+T3S5P1_i = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),14]))
+T3S5P2_i = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),14]))
+T3S5P3_i = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),14]))
+T3S5P4_i = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),14]))
+T3S5P5_i = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),14]))
+T3S5P6_i = unfactor(as.factor(data.frame(T3S5 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),14]))
+
+T4S5P1_i = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),14]))
+T4S5P2_i = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),14]))
+T4S5P3_i = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),14]))
+T4S5P4_i = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),14]))
+T4S5P5_i = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),14]))
+T4S5P6_i = unfactor(as.factor(data.frame(T4S5 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),14]))
+
+T3S6P1_i = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),14]))
+T3S6P2_i = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),14]))
+T3S6P3_i = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),14]))
+T3S6P4_i = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),14]))
+T3S6P5_i = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),14]))
+T3S6P6_i = unfactor(as.factor(data.frame(T3S6 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),14]))
+
+T4S6P1_i = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2,V5==1,))[c(1:15),14]))
+T4S6P2_i = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2,V5==2,))[c(1:15),14]))
+T4S6P3_i = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2,V5==3,))[c(1:15),14]))
+T4S6P4_i = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2,V5==4,))[c(1:15),14]))
+T4S6P5_i = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2,V5==5,))[c(1:15),14]))
+T4S6P6_i = unfactor(as.factor(data.frame(T4S6 %>% filter(V3=="subjects", V2==2,V5==6,))[c(1:15),14]))
+
+subjects_b_i = c()
+
+for (t in 3:4){
+  for (s in 1:6){
+    for (p in 1:6){
+      
+    mydata = get(paste("T",t,"S",s,"P",p,"_B",sep=""))
+    subjects_b_i = as.data.frame(cbind(subjects_b_i,mydata))
+    names(subjects_b_i)[length(names(subjects_b_i))]<-paste("T",t,"S",s,"P",p,"_B",sep="")
+    } 
+    }
+}
+for (t in 3:4){
+  for (s in 1:6){
+    for (p in 1:6){
+      
+    mydata = get(paste("T",t,"S",s,"P",p,"_i",sep=""))
+    subjects_b_i = as.data.frame(cbind(subjects_b_i,mydata))
+    names(subjects_b_i)[length(names(subjects_b_i))]<-paste("T",t,"S",s,"P",p,"_i",sep="")
+    } 
+    }
+}
+period = c(1:15)
+
+```
+
+
+## Treatment 3 {.tabset}
+
+### Session 1
+
+```{r, echo= FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=9}
+
+P1 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S1P1_B, color = "Belief"))+ geom_point(aes(y = T3S1P1_B, color = "Belief")) + 
+  geom_line(aes(y = T3S1P1_i, color = "Inform")) + geom_point(aes(y = T3S1P1_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 1")
+
+P2 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S1P2_B, color = "Belief"))+ geom_point(aes(y = T3S1P2_B, color = "Belief")) + 
+  geom_line(aes(y = T3S1P2_i, color = "Inform")) + geom_point(aes(y = T3S1P2_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 2")
+
+P3 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S1P3_B, color = "Belief"))+ geom_point(aes(y = T3S1P3_B, color = "Belief")) + 
+  geom_line(aes(y = T3S1P3_i, color = "Inform")) + geom_point(aes(y = T3S1P3_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 3")
+
+P4 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S1P4_B, color = "Belief"))+ geom_point(aes(y = T3S1P4_B, color = "Belief")) + 
+  geom_line(aes(y = T3S1P4_i, color = "Inform")) + geom_point(aes(y = T3S1P4_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 4")
+
+P5 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S1P5_B, color = "Belief"))+ geom_point(aes(y = T3S1P5_B, color = "Belief")) + 
+  geom_line(aes(y = T3S1P5_i, color = "Inform")) + geom_point(aes(y = T3S1P5_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 5")
+
+P6 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S1P6_B, color = "Belief"))+ geom_point(aes(y = T3S1P6_B, color = "Belief")) + 
+  geom_line(aes(y = T3S1P6_i, color = "Inform")) + geom_point(aes(y = T3S1P6_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 6")
+
+ggarrange(P1, P2,P3,P4,P5,P6,
+                    ncol = 2, nrow = 3, legend = "top",common.legend = TRUE)
+```
+
+
+
+
+
+### Session 2
+
+```{r, echo= FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=9}
+
+P1 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S2P1_B, color = "Belief"))+ geom_point(aes(y = T3S2P1_B, color = "Belief")) + 
+  geom_line(aes(y = T3S2P1_i, color = "Inform")) + geom_point(aes(y = T3S2P1_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 1")
+
+P2 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S2P2_B, color = "Belief"))+ geom_point(aes(y = T3S2P2_B, color = "Belief")) + 
+  geom_line(aes(y = T3S2P2_i, color = "Inform")) + geom_point(aes(y = T3S2P2_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 2")
+
+P3 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S2P3_B, color = "Belief"))+ geom_point(aes(y = T3S2P3_B, color = "Belief")) + 
+  geom_line(aes(y = T3S2P3_i, color = "Inform")) + geom_point(aes(y = T3S2P3_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 3")
+
+P4 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S2P4_B, color = "Belief"))+ geom_point(aes(y = T3S2P4_B, color = "Belief")) + 
+  geom_line(aes(y = T3S2P4_i, color = "Inform")) + geom_point(aes(y = T3S2P4_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 4")
+
+P5 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S2P5_B, color = "Belief"))+ geom_point(aes(y = T3S2P5_B, color = "Belief")) + 
+  geom_line(aes(y = T3S2P5_i, color = "Inform")) + geom_point(aes(y = T3S2P5_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 5")
+
+P6 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S2P6_B, color = "Belief"))+ geom_point(aes(y = T3S2P6_B, color = "Belief")) + 
+  geom_line(aes(y = T3S2P6_i, color = "Inform")) + geom_point(aes(y = T3S2P6_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 6")
+
+ggarrange(P1, P2,P3,P4,P5,P6,
+                    ncol = 2, nrow = 3, legend = "top",common.legend = TRUE)
+```
+
+### Session 3
+
+```{r, echo= FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=9}
+
+P1 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S3P1_B, color = "Belief"))+ geom_point(aes(y = T3S3P1_B, color = "Belief")) + 
+  geom_line(aes(y = T3S3P1_i, color = "Inform")) + geom_point(aes(y = T3S3P1_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 1")
+
+P2 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S3P2_B, color = "Belief"))+ geom_point(aes(y = T3S3P2_B, color = "Belief")) + 
+  geom_line(aes(y = T3S3P2_i, color = "Inform")) + geom_point(aes(y = T3S3P2_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 2")
+
+P3 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S3P3_B, color = "Belief"))+ geom_point(aes(y = T3S3P3_B, color = "Belief")) + 
+  geom_line(aes(y = T3S3P3_i, color = "Inform")) + geom_point(aes(y = T3S3P3_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 3")
+
+P4 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S3P4_B, color = "Belief"))+ geom_point(aes(y = T3S3P4_B, color = "Belief")) + 
+  geom_line(aes(y = T3S3P4_i, color = "Inform")) + geom_point(aes(y = T3S3P4_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 4")
+
+P5 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S3P5_B, color = "Belief"))+ geom_point(aes(y = T3S3P5_B, color = "Belief")) + 
+  geom_line(aes(y = T3S3P5_i, color = "Inform")) + geom_point(aes(y = T3S3P5_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 5")
+
+P6 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S3P6_B, color = "Belief"))+ geom_point(aes(y = T3S3P6_B, color = "Belief")) + 
+  geom_line(aes(y = T3S3P6_i, color = "Inform")) + geom_point(aes(y = T3S3P6_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 6")
+
+ggarrange(P1, P2,P3,P4,P5,P6,
+                    ncol = 2, nrow = 3, legend = "top",common.legend = TRUE)
+```
+
+
+### Session 4
+
+```{r, echo= FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=9}
+
+P1 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S4P1_B, color = "Belief"))+ geom_point(aes(y = T3S4P1_B, color = "Belief")) + 
+  geom_line(aes(y = T3S4P1_i, color = "Inform")) + geom_point(aes(y = T3S4P1_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 1")
+
+P2 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S4P2_B, color = "Belief"))+ geom_point(aes(y = T3S4P2_B, color = "Belief")) + 
+  geom_line(aes(y = T3S4P2_i, color = "Inform")) + geom_point(aes(y = T3S4P2_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 2")
+
+P3 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S4P3_B, color = "Belief"))+ geom_point(aes(y = T3S4P3_B, color = "Belief")) + 
+  geom_line(aes(y = T3S4P3_i, color = "Inform")) + geom_point(aes(y = T3S4P3_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 3")
+
+P4 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S4P4_B, color = "Belief"))+ geom_point(aes(y = T3S4P4_B, color = "Belief")) + 
+  geom_line(aes(y = T3S4P4_i, color = "Inform")) + geom_point(aes(y = T3S4P4_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 4")
+
+P5 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S4P5_B, color = "Belief"))+ geom_point(aes(y = T3S4P5_B, color = "Belief")) + 
+  geom_line(aes(y = T3S4P5_i, color = "Inform")) + geom_point(aes(y = T3S4P5_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 5")
+
+P6 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S4P6_B, color = "Belief"))+ geom_point(aes(y = T3S4P6_B, color = "Belief")) + 
+  geom_line(aes(y = T3S4P6_i, color = "Inform")) + geom_point(aes(y = T3S4P6_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 6")
+
+ggarrange(P1, P2,P3,P4,P5,P6,
+                    ncol = 2, nrow = 3, legend = "top",common.legend = TRUE)
+```
+
+
+### Session 5
+
+```{r, echo= FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=9}
+
+P1 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S5P1_B, color = "Belief"))+ geom_point(aes(y = T3S5P1_B, color = "Belief")) + 
+  geom_line(aes(y = T3S5P1_i, color = "Inform")) + geom_point(aes(y = T3S5P1_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 1")
+
+P2 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S5P2_B, color = "Belief"))+ geom_point(aes(y = T3S5P2_B, color = "Belief")) + 
+  geom_line(aes(y = T3S5P2_i, color = "Inform")) + geom_point(aes(y = T3S5P2_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 2")
+
+P3 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S5P3_B, color = "Belief"))+ geom_point(aes(y = T3S5P3_B, color = "Belief")) + 
+  geom_line(aes(y = T3S5P3_i, color = "Inform")) + geom_point(aes(y = T3S5P3_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 3")
+
+P4 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S5P4_B, color = "Belief"))+ geom_point(aes(y = T3S5P4_B, color = "Belief")) + 
+  geom_line(aes(y = T3S5P4_i, color = "Inform")) + geom_point(aes(y = T3S5P4_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 4")
+
+P5 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S5P5_B, color = "Belief"))+ geom_point(aes(y = T3S5P5_B, color = "Belief")) + 
+  geom_line(aes(y = T3S5P5_i, color = "Inform")) + geom_point(aes(y = T3S5P5_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 5")
+
+P6 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S5P6_B, color = "Belief"))+ geom_point(aes(y = T3S5P6_B, color = "Belief")) + 
+  geom_line(aes(y = T3S5P6_i, color = "Inform")) + geom_point(aes(y = T3S5P6_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 6")
+
+ggarrange(P1, P2,P3,P4,P5,P6,
+                    ncol = 2, nrow = 3, legend = "top",common.legend = TRUE)
+```
+
+### Session 6
+
+```{r, echo= FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=9}
+
+P1 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S6P1_B, color = "Belief"))+ geom_point(aes(y = T3S6P1_B, color = "Belief")) + 
+  geom_line(aes(y = T3S6P1_i, color = "Inform")) + geom_point(aes(y = T3S6P1_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 1")
+
+P2 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S6P2_B, color = "Belief"))+ geom_point(aes(y = T3S6P2_B, color = "Belief")) + 
+  geom_line(aes(y = T3S6P2_i, color = "Inform")) + geom_point(aes(y = T3S6P2_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 2")
+
+P3 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S6P3_B, color = "Belief"))+ geom_point(aes(y = T3S6P3_B, color = "Belief")) + 
+  geom_line(aes(y = T3S6P3_i, color = "Inform")) + geom_point(aes(y = T3S6P3_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 3")
+
+P4 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S6P4_B, color = "Belief"))+ geom_point(aes(y = T3S6P4_B, color = "Belief")) + 
+  geom_line(aes(y = T3S6P4_i, color = "Inform")) + geom_point(aes(y = T3S6P4_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 4")
+
+P5 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S6P5_B, color = "Belief"))+ geom_point(aes(y = T3S6P5_B, color = "Belief")) + 
+  geom_line(aes(y = T3S6P5_i, color = "Inform")) + geom_point(aes(y = T3S6P5_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 5")
+
+P6 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T3S6P6_B, color = "Belief"))+ geom_point(aes(y = T3S6P6_B, color = "Belief")) + 
+  geom_line(aes(y = T3S6P6_i, color = "Inform")) + geom_point(aes(y = T3S6P6_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 6")
+
+ggarrange(P1, P2,P3,P4,P5,P6,
+                    ncol = 2, nrow = 3, legend = "top",common.legend = TRUE)
+```
+
+
+
+
+
+
+## Treatment 4 {.tabset}
+
+### Session 1
+
+```{r, echo= FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=9}
+
+P1 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S1P1_B, color = "Belief"))+ geom_point(aes(y = T4S1P1_B, color = "Belief")) + 
+  geom_line(aes(y = T4S1P1_i, color = "Inform")) + geom_point(aes(y = T4S1P1_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 1")
+
+P2 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S1P2_B, color = "Belief"))+ geom_point(aes(y = T4S1P2_B, color = "Belief")) + 
+  geom_line(aes(y = T4S1P2_i, color = "Inform")) + geom_point(aes(y = T4S1P2_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 2")
+
+P3 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S1P3_B, color = "Belief"))+ geom_point(aes(y = T4S1P3_B, color = "Belief")) + 
+  geom_line(aes(y = T4S1P3_i, color = "Inform")) + geom_point(aes(y = T4S1P3_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 3")
+
+P4 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S1P4_B, color = "Belief"))+ geom_point(aes(y = T4S1P4_B, color = "Belief")) + 
+  geom_line(aes(y = T4S1P4_i, color = "Inform")) + geom_point(aes(y = T4S1P4_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 4")
+
+P5 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S1P5_B, color = "Belief"))+ geom_point(aes(y = T4S1P5_B, color = "Belief")) + 
+  geom_line(aes(y = T4S1P5_i, color = "Inform")) + geom_point(aes(y = T4S1P5_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 5")
+
+P6 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S1P6_B, color = "Belief"))+ geom_point(aes(y = T4S1P6_B, color = "Belief")) + 
+  geom_line(aes(y = T4S1P6_i, color = "Inform")) + geom_point(aes(y = T4S1P6_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 6")
+
+ggarrange(P1, P2,P3,P4,P5,P6,
+                    ncol = 2, nrow = 3, legend = "top",common.legend = TRUE)
+```
+
+
+
+
+
+### Session 2
+
+```{r, echo= FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=9}
+
+P1 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S2P1_B, color = "Belief"))+ geom_point(aes(y = T4S2P1_B, color = "Belief")) + 
+  geom_line(aes(y = T4S2P1_i, color = "Inform")) + geom_point(aes(y = T4S2P1_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 1")
+
+P2 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S2P2_B, color = "Belief"))+ geom_point(aes(y = T4S2P2_B, color = "Belief")) + 
+  geom_line(aes(y = T4S2P2_i, color = "Inform")) + geom_point(aes(y = T4S2P2_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 2")
+
+P3 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S2P3_B, color = "Belief"))+ geom_point(aes(y = T4S2P3_B, color = "Belief")) + 
+  geom_line(aes(y = T4S2P3_i, color = "Inform")) + geom_point(aes(y = T4S2P3_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 3")
+
+P4 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S2P4_B, color = "Belief"))+ geom_point(aes(y = T4S2P4_B, color = "Belief")) + 
+  geom_line(aes(y = T4S2P4_i, color = "Inform")) + geom_point(aes(y = T4S2P4_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 4")
+
+P5 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S2P5_B, color = "Belief"))+ geom_point(aes(y = T4S2P5_B, color = "Belief")) + 
+  geom_line(aes(y = T4S2P5_i, color = "Inform")) + geom_point(aes(y = T4S2P5_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 5")
+
+P6 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S2P6_B, color = "Belief"))+ geom_point(aes(y = T4S2P6_B, color = "Belief")) + 
+  geom_line(aes(y = T4S2P6_i, color = "Inform")) + geom_point(aes(y = T4S2P6_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 6")
+
+ggarrange(P1, P2,P3,P4,P5,P6,
+                    ncol = 2, nrow = 3, legend = "top",common.legend = TRUE)
+```
+
+### Session 3
+
+```{r, echo= FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=9}
+
+P1 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S3P1_B, color = "Belief"))+ geom_point(aes(y = T4S3P1_B, color = "Belief")) + 
+  geom_line(aes(y = T4S3P1_i, color = "Inform")) + geom_point(aes(y = T4S3P1_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 1")
+
+P2 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S3P2_B, color = "Belief"))+ geom_point(aes(y = T4S3P2_B, color = "Belief")) + 
+  geom_line(aes(y = T4S3P2_i, color = "Inform")) + geom_point(aes(y = T4S3P2_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 2")
+
+P3 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S3P3_B, color = "Belief"))+ geom_point(aes(y = T4S3P3_B, color = "Belief")) + 
+  geom_line(aes(y = T4S3P3_i, color = "Inform")) + geom_point(aes(y = T4S3P3_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 3")
+
+P4 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S3P4_B, color = "Belief"))+ geom_point(aes(y = T4S3P4_B, color = "Belief")) + 
+  geom_line(aes(y = T4S3P4_i, color = "Inform")) + geom_point(aes(y = T4S3P4_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 4")
+
+P5 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S3P5_B, color = "Belief"))+ geom_point(aes(y = T4S3P5_B, color = "Belief")) + 
+  geom_line(aes(y = T4S3P5_i, color = "Inform")) + geom_point(aes(y = T4S3P5_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 5")
+
+P6 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S3P6_B, color = "Belief"))+ geom_point(aes(y = T4S3P6_B, color = "Belief")) + 
+  geom_line(aes(y = T4S3P6_i, color = "Inform")) + geom_point(aes(y = T4S3P6_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 6")
+
+ggarrange(P1, P2,P3,P4,P5,P6,
+                    ncol = 2, nrow = 3, legend = "top",common.legend = TRUE)
+```
+
+
+### Session 4
+
+```{r, echo= FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=9}
+
+P1 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S4P1_B, color = "Belief"))+ geom_point(aes(y = T4S4P1_B, color = "Belief")) + 
+  geom_line(aes(y = T4S4P1_i, color = "Inform")) + geom_point(aes(y = T4S4P1_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 1")
+
+P2 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S4P2_B, color = "Belief"))+ geom_point(aes(y = T4S4P2_B, color = "Belief")) + 
+  geom_line(aes(y = T4S4P2_i, color = "Inform")) + geom_point(aes(y = T4S4P2_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 2")
+
+P3 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S4P3_B, color = "Belief"))+ geom_point(aes(y = T4S4P3_B, color = "Belief")) + 
+  geom_line(aes(y = T4S4P3_i, color = "Inform")) + geom_point(aes(y = T4S4P3_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 3")
+
+P4 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S4P4_B, color = "Belief"))+ geom_point(aes(y = T4S4P4_B, color = "Belief")) + 
+  geom_line(aes(y = T4S4P4_i, color = "Inform")) + geom_point(aes(y = T4S4P4_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 4")
+
+P5 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S4P5_B, color = "Belief"))+ geom_point(aes(y = T4S4P5_B, color = "Belief")) + 
+  geom_line(aes(y = T4S4P5_i, color = "Inform")) + geom_point(aes(y = T4S4P5_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 5")
+
+P6 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S4P6_B, color = "Belief"))+ geom_point(aes(y = T4S4P6_B, color = "Belief")) + 
+  geom_line(aes(y = T4S4P6_i, color = "Inform")) + geom_point(aes(y = T4S4P6_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 6")
+
+ggarrange(P1, P2,P3,P4,P5,P6,
+                    ncol = 2, nrow = 3, legend = "top",common.legend = TRUE)
+```
+
+
+### Session 5
+
+```{r, echo= FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=9}
+
+P1 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S5P1_B, color = "Belief"))+ geom_point(aes(y = T4S5P1_B, color = "Belief")) + 
+  geom_line(aes(y = T4S5P1_i, color = "Inform")) + geom_point(aes(y = T4S5P1_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 1")
+
+P2 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S5P2_B, color = "Belief"))+ geom_point(aes(y = T4S5P2_B, color = "Belief")) + 
+  geom_line(aes(y = T4S5P2_i, color = "Inform")) + geom_point(aes(y = T4S5P2_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 2")
+
+P3 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S5P3_B, color = "Belief"))+ geom_point(aes(y = T4S5P3_B, color = "Belief")) + 
+  geom_line(aes(y = T4S5P3_i, color = "Inform")) + geom_point(aes(y = T4S5P3_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 3")
+
+P4 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S5P4_B, color = "Belief"))+ geom_point(aes(y = T4S5P4_B, color = "Belief")) + 
+  geom_line(aes(y = T4S5P4_i, color = "Inform")) + geom_point(aes(y = T4S5P4_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 4")
+
+P5 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S5P5_B, color = "Belief"))+ geom_point(aes(y = T4S5P5_B, color = "Belief")) + 
+  geom_line(aes(y = T4S5P5_i, color = "Inform")) + geom_point(aes(y = T4S5P5_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 5")
+
+P6 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S5P6_B, color = "Belief"))+ geom_point(aes(y = T4S5P6_B, color = "Belief")) + 
+  geom_line(aes(y = T4S5P6_i, color = "Inform")) + geom_point(aes(y = T4S5P6_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 6")
+
+ggarrange(P1, P2,P3,P4,P5,P6,
+                    ncol = 2, nrow = 3, legend = "top",common.legend = TRUE)
+```
+
+### Session 6
+
+```{r, echo= FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=9}
+
+P1 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S6P1_B, color = "Belief"))+ geom_point(aes(y = T4S6P1_B, color = "Belief")) + 
+  geom_line(aes(y = T4S6P1_i, color = "Inform")) + geom_point(aes(y = T4S6P1_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 1")
+
+P2 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S6P2_B, color = "Belief"))+ geom_point(aes(y = T4S6P2_B, color = "Belief")) + 
+  geom_line(aes(y = T4S6P2_i, color = "Inform")) + geom_point(aes(y = T4S6P2_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 2")
+
+P3 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S6P3_B, color = "Belief"))+ geom_point(aes(y = T4S6P3_B, color = "Belief")) + 
+  geom_line(aes(y = T4S6P3_i, color = "Inform")) + geom_point(aes(y = T4S6P3_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 3")
+
+P4 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S6P4_B, color = "Belief"))+ geom_point(aes(y = T4S6P4_B, color = "Belief")) + 
+  geom_line(aes(y = T4S6P4_i, color = "Inform")) + geom_point(aes(y = T4S6P4_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 4")
+
+P5 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S6P5_B, color = "Belief"))+ geom_point(aes(y = T4S6P5_B, color = "Belief")) + 
+  geom_line(aes(y = T4S6P5_i, color = "Inform")) + geom_point(aes(y = T4S6P5_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 5")
+
+P6 = ggplot(data=subjects_b_i, aes(x=period)) + 
+  geom_line(aes(y = T4S6P6_B, color = "Belief"))+ geom_point(aes(y = T4S6P6_B, color = "Belief")) + 
+  geom_line(aes(y = T4S6P6_i, color = "Inform")) + geom_point(aes(y = T4S6P6_i, color = "Inform"))+
+      theme(legend.title = element_blank())+ 
+  scale_x_continuous(name = "Period", breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(name = "Prices")  +
+  ggtitle("Player 6")
+
+ggarrange(P1, P2,P3,P4,P5,P6,
+                    ncol = 2, nrow = 3, legend = "top",common.legend = TRUE)
+```
+
+
+
+
+
+
+
+
